@@ -27,11 +27,7 @@ To Do:
 //**************************************************************************************************
 
 #define Board_Definition "Locator2_Board_Definitions.h"
-//#define Board_Definition "Receiver2_Board_Definitions.h"   
-//#define Board_Definition "Sensor1_Board_Definitions.h"   
-//#define Board_Definition "RFM98_Shield_January2016_Board_Definitions.h"
-//#define Board_Definition "MicroRX_Board_Definitions.h"
-//#define Board_Definition "LCD_Receiver_Board_Definitions.h"
+
 
 
 //**************************************************************************************************
@@ -39,8 +35,9 @@ To Do:
 //**************************************************************************************************
 
 #define ConfigureDefaults               //Configure settings from default program defaults, needs to be run at least once, cleared if bind is run
-//#define ClearAllMemory                //Clears from start memory to end memory, normally 1kbyte, needs to be followed by ConfigureDefaults
 //#define ConfigureFromMemory           //Configure settings from values stored in memory, this needs to be the active mode for bind to work
+//#define ClearAllMemory                //Clears from start memory to end memory, normally 1kbyte, needs to be followed by ConfigureDefaults
+
 
 #define CalibrateTone                     //comment in to have a calibrate tone at startup
 
@@ -167,14 +164,12 @@ const unsigned int TestAltitude = 2;
 // 7) Display Settings 
 //**************************************************************************************************
 
-//#define Display_Library "Display_I2C_LCD.h"
-//#define Use_I2C_LCD_20x4_Screens                      //use the I2C LCD Screens, 20x4 
+#define Display_Library "Display_I2C_LCD.h"
+#define Use_I2C_LCD_20x4_Screens                      //use the I2C LCD Screens, 20x4 
 
-#define Display_Library "Display_SD1306_AVR.h"
-#define SD1306_SMALL_TEXT_Screens                       //use small text on display, more information   
+//#define Display_Library "Display_SD1306_AVR.h"
+//#define SD1306_SMALL_TEXT_Screens                       //use small text on display, more information   
 //#define SD1306_LARGE_TEXT_Screens                     //use large text on screen, easier to read 
-
-//#define Use_I2C_LCD                                   //use the I2C LCD Screens, 20x4  
 
 
 //**************************************************************************************************

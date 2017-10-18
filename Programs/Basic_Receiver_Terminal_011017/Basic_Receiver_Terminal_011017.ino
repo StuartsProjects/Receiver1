@@ -3,7 +3,7 @@
 //
 // Make changes to this Program file at your peril
 //
-// Configuration changes should be made in the LoRaTracker_Settings file not here !
+// Configuration changes should be made in the Basic_Receiver_Terminal_Settingsfile not here !
 //
 //**************************************************************************************************
 
@@ -144,12 +144,13 @@ void loop()
 
 }
 
-byte doMenu()
+void doMenu()
 {
   //prints the terminal menu, caqn be ignored in handheld display mode (no serial characters to input
-menustart:
+byte i;
 
-  byte i;
+menustart:
+  i = 0;
   digitalWrite(LED1, LOW);                    //make sure LED is off
   Setup_LoRaTrackerMode();
 
@@ -362,7 +363,7 @@ void enter_CalibrationOffset()
 {
   //allows calibration offset of recever to be changed from terminal keyboard
   float tempfloat;
-  char tempchar;
+  byte tempchar;
   Serial.println(F("Enter Khz offset > "));
   while (Serial.available() == 0);
   {
@@ -372,36 +373,8 @@ void enter_CalibrationOffset()
   }
   while (Serial.available() > 0)
   {
-    tempchar == Serial.read();                      //clear keyboard buffer
+    tempchar = Serial.read();                      //clear keyboard buffer
   }
-}
-
-
-void Send_Bind()
-{
-  //transmit the bind packet
-  byte index, bufferdata;
-  byte packetlength = 3;  //the bind packet will contain from addr_StartConfigData to addr_EndConfigData
-  unsigned int tempUint;
-  load_key();                                       //loads key in bytes 0,1,2,3
-  Serial.println(F("Queue Send Bind Packet"));
-
-  Setup_LoRaBindMode();
-
-  for (index = addr_StartBindData; index <= addr_EndBindData; index++)
-  {
-    packetlength++;
-    bufferdata =  Memory_ReadByte(index);
-    lora_TXBUFF[packetlength] = bufferdata;
-  }
-
-  if (lora_QueuedSend(0, packetlength, Bind, Broadcast, ThisNode, 10, lora_Power, default_attempts, NoStrip));
-  
-  {
-    //will return as true if queued send received
-   Print_CRC_Bind_Memory();
-  }
-
 }
 
 
@@ -443,8 +416,6 @@ byte listen_LoRa(byte lmode, unsigned long listen_mS)
 {
   //listen for packets in specific mode, timeout in mS, 0 = continuous wait
   unsigned long listen_endmS;
-  byte GPSByte;
-
 
   switch (lmode)
   {
@@ -865,7 +836,7 @@ void print_Tracker_Location()
 void print_packet_HEX(byte RXStart, byte RXEnd)
 {
   //prints contents of received packet as hexadecimal
-  byte index, bufferdata;
+  byte bufferdata;
   Serial.print(lora_RXPacketType, HEX);
   Serial.print(F(" "));
   Serial.print(lora_RXDestination, HEX);
@@ -891,8 +862,7 @@ void process_Packet()
 {
   //process and decide what to do with received packet
   unsigned int index, tempint;
-  byte tempbyte, tempbyte1, ptr;
-  int signedint;
+  byte tempbyte, ptr;
   unsigned int returnedCRC;
   int8_t tempchar;
 
@@ -1663,9 +1633,6 @@ void setstatusByte(byte bitnum, byte bitval)
 void setup()
 {
   //needs no explanation I hope ...............
-
-  int tempint;
-  byte index;
 
   pinMode(LED1, OUTPUT);                    //setup pin for PCB LED
   led_Flash(2, 250);

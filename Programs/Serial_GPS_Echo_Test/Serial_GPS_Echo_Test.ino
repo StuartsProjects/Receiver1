@@ -12,8 +12,6 @@
 #define GPSBAUD 9600                  //this is the serial baud rate that will be used for the GPS
 #define MONITORBAUD 115200            //this is the serial baud rate that will be used for the serial monitor 
 
-#define GPS_in_MB2                    //for boards with Mikrobus sockets
-//#include "LCD_Receiver_Board_Definitions.h"
 #include "Locator2_Board_Definitions.h"
 
 #include <NeoSWSerial.h>              //https://github.com/SlashDevin/NeoSWSerial  

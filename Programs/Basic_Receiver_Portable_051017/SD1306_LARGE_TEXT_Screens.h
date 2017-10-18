@@ -33,10 +33,8 @@ void writescreen_8(uint32_t f1, uint32_t f2, int volts);
 void writescreen_9();
 void writescreen_Alert1();        //GLONASS warning
 void writescreen_Alert2();        //bind received
-//void writescreen_Alert3();        //bind accepted
 void writescreen_Alert4();        //
-unsigned int writescreen_Alert5(unsigned int battvolts);
-//void writescreen_Alert6();        //No SD Card
+void writescreen_Alert5(unsigned int battvolts);
 void writescreen_Alert7();        //bind rejected 
 void writescreen_Alert8();
 void writescreen_Alert9();
@@ -157,8 +155,6 @@ void writescreen_3()
 void writescreen_4()
 {
   //This displays last Local co-ordinates from memory;
-  byte i;
-  unsigned long templong;
   Display_SetTextSize(1);
   Display_Clear();
   Display_SetCurPos(0, 0);
@@ -179,7 +175,6 @@ void writescreen_4()
 
 void writescreen_5()
 {
-  byte i;
   Display_SetTextSize(1);
   Display_Clear();
   Display_SetCurPos(0, 0);
@@ -354,7 +349,7 @@ void writescreen_Alert4()
 }
 
 
-unsigned int writescreen_Alert5(unsigned int supplyvolts)
+void writescreen_Alert5(unsigned int supplyvolts)
 {
   Display_SetTextSize(1);
   Display_Clear();                                    //set large font and clear

@@ -33,7 +33,7 @@ MB85RC16PNF FRAM 0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57
 #include <Arduino.h>
 #include <Wire.h>
 #include "I2C_Scanner.h"
-#include "HAB2_Board_Definitions.h"
+#include "Locator2_Board_Definitions.h"
 
 unsigned int scancount;
 

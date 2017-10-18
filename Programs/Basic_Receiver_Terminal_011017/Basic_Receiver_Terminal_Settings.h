@@ -32,13 +32,14 @@ disable bind mode when menu not selected
 //#define UseSD                                            //define if there is an SD card attached 
 #define Board_Definition "Locator2_Board_Definitions.h"    //define the board type to be used
 
+
 //**************************************************************************************************
 // 2) Program Options
 //**************************************************************************************************
 
 //#define ClearConfigData                 //at startup zero the config memory 
 //#define ClearAllMemory                  //at startup clears from start memory to end memory, normally 1kbyte, needs to be followed by ConfigureDefaults
-#define ConfigureDefaults               //at startup configure settings from default program defaults, these are then stored in memory
+#define ConfigureDefaults                 //at startup configure settings from default program defaults, these are then stored in memory
 //#define ConfigureFromMemory               //at startup configure settings from values stored in memory, this needs to be the active mode for bind to work
 
 #define CalibrateTone                     //comment in to have a calibrate tone at startup
@@ -110,6 +111,7 @@ const int inter_Packet_delay = 500;          //allows time for receiver to be re
 const byte Cmd_WaitSecs = 15;                //number of seconds to stay in command mode  
 const byte default_attempts = 5;             //default number of times a command will attempt to be sent
 
+
 //Protected Command Settings
 const char key0 = 'L';                       //Used to restrict access to some commands
 const char key1 = 'o';
@@ -133,7 +135,7 @@ const char key3 = 'a';
 // 9) AFSK RTTY Options
 //**************************************************************************************************
 
-#define USE_AFSK_RTTY_Upload
+//#define USE_AFSK_RTTY_Upload
 const int AFSKrttybaud = 1465;            //delay in uS x 2 for 1 bit and 300baud. Decode range in FLDIGI 1420 to 1510  
 const int afskleadinmS = 500;             //number of ms for AFSK constant lead in tone
 const int tonehighHz = 1000;              //high tone in Hertz 

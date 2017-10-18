@@ -3,7 +3,7 @@
 //
 // Make changes to this Program file at your peril
 //
-// Configuration changes should be made in the LoRaTracker_Settings file not here !
+// Configuration changes should be made in the Basic_Receiver_Portable_Settings file not here !
 //
 //**************************************************************************************************
 
@@ -616,10 +616,8 @@ void process_Packet()
 {
   //process and decide what to do with received packet
   unsigned int index, tempint;
-  byte tempbyte, tempbyte1, ptr;
-  int signedint;
+  byte tempbyte, ptr;
   unsigned int returnedCRC;
-  int8_t tempchar;
 
   digitalWrite(LED1, HIGH);
 
@@ -777,7 +775,7 @@ void process_Packet()
 }
 
 
-unsigned int Print_CRC_Bind_Memory()
+void Print_CRC_Bind_Memory()
 {
   unsigned int returnedCRC = Memory_CRC(addr_StartBindData, addr_EndBindData);
   Serial.print(F("Local Bind CRC "));
@@ -1029,9 +1027,6 @@ unsigned int ReadSupplyVolts()
 void setup()
 {
   //needs no explanation I hope ...............
-
-  int tempint;
-  byte index;
 
   pinMode(LED1, OUTPUT);                    //setup pin for PCB LED
   led_Flash(2, 250);

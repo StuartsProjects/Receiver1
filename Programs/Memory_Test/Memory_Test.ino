@@ -39,7 +39,7 @@
 #include "I2CFRAM_MB85RC16PNF.h"                     //library file for MB85RC16PNF
 //#include "EEPROM_Memory.h"                         //Library file for ATMEGA Internal EEPROM
 
-#include "LCD_Receiver_Board_Definitions.h"          //include definitions file for board type
+#include "Locator2_Board_Definitions.h"          //include definitions file for board type
 
 
 #include "Program_Definitions.h"

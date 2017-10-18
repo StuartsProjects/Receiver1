@@ -34,8 +34,7 @@ const byte lora_TXBUFF_Size = 1;
 const byte Deviation = 0x52;                 //typical deviation for tones
 
 
-#define LoRa_Device_in_MB1                   //for boards with Mikrobus sockets
-#include "LCD_Receiver_Board_Definitions.h"
+#include "Locator2_Board_Definitions.h"
 
 #include <SPI.h>
 #include "LoRa3.h"
