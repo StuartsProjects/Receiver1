@@ -164,13 +164,18 @@ const unsigned int TestAltitude = 2;
 // 7) Display Settings 
 //**************************************************************************************************
 
+//#define Display_Library "Display_I2CBackpack.h"
+//#define Display_Screens "I2CBackpack_Screens.h" 
+
 #define Display_Library "Display_I2C_LCD.h"
-#define Use_I2C_LCD_20x4_Screens                      //use the I2C LCD Screens, 20x4 
+#define Display_Screens "I2C_LCD_20x4_Screens.h"                         //use the I2C LCD Screens, 20x4 
 
-//#define Display_Library "Display_SD1306_AVR.h"
-//#define SD1306_SMALL_TEXT_Screens                       //use small text on display, more information   
-//#define SD1306_LARGE_TEXT_Screens                     //use large text on screen, easier to read 
+//define Display_Library "Display_SD1306_AVR.h"
+//define Display_Screens "SD1306_SMALL_TEXT_Screens.h"                     //use small text on display, more information   
+//#define Display_Screens "SD1306_LARGE_TEXT_Screens.h"                    //use large text on screen, easier to read 
 
+const byte Default_Font_Size = 3;                                          //defines the default font size for display to use at startup 
+const byte Default_Contrast = 52;                                          //defines the default contrast for display to use at startup, not supported on all displays 
 
 //**************************************************************************************************
 // 10) Bluetooth Options

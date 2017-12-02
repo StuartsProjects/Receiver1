@@ -1,10 +1,10 @@
-//Portable_Screens_Small.h
+//I2CBackpack_Screens.h
 /*
 **************************************************************************************************
 
   Easy Build LoRaTracker Programs for Arduino
 
-  Copyright of the author Stuart Robinson - 05/08/2017
+  Copyright of the author Stuart Robinson - 04/11/2017
 
   http://www.LoRaTracker.uk
 
@@ -21,7 +21,10 @@
 **************************************************************************************************
 */
 
+#define Display_Address 0x08
+I2CDisplay disp(Display_Address); //create the display class
 
+void Display_Setup();
 void writescreen_1();             //tracker mode receive screen
 void writescreen_2();             //search mode receive screen
 void writescreen_3();             //tracker location screen
@@ -33,10 +36,8 @@ void writescreen_8(uint32_t f1, uint32_t f2, int volts);
 void writescreen_9();
 void writescreen_Alert1();        //GLONASS warning
 void writescreen_Alert2();        //bind received
-//void writescreen_Alert3();      //bind accepted
 void writescreen_Alert4();        //
 void writescreen_Alert5(unsigned int battvolts);
-//void writescreen_Alert6();        //No SD Card
 void writescreen_Alert7();        //bind rejected 
 void writescreen_Alert8();
 void writescreen_Alert9();
@@ -52,6 +53,17 @@ byte current_screen_number = 1;
 /******************************************************
   Screens
 *******************************************************/
+
+
+
+void Display_Setup()
+{
+disp.setwaitReady(waitready);                           //make sure display is set to allow writes to complete
+disp.clear();
+disp.SetTextSize(Default_Font_Size);
+disp.Contrast(Default_Contrast);
+disp.SetCurPos(0, 0);
+}
 
 
 void update_screen(byte screennumber)
@@ -86,96 +98,90 @@ void update_screen(byte screennumber)
 
 void writescreen_1()
 {
-  Display_SetTextSize(1);
-  Display_Clear();
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();
   add_Tracker_Location();
  
  if (Local_GPS_Fix)
  {
-  Display_SetCurPos(0, 3);
+  disp.SetCurPos(0, 3);
   add_Tracker_DD();
  }
  
   writeSNR(0, 4);
-  Display_SetCurPos(0, 5);
+  disp.SetCurPos(0, 5);
   disp.print(F("Tracker "));
   disp.print(TrackerMode_Packets);
-  Display_Update();
 }
 
 
 
 void writescreen_2()
 {
-  Display_SetTextSize(1);
-  Display_Clear();
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();
   add_Tracker_Location();
  
   if (Local_GPS_Fix)
   {
-   Display_SetCurPos(0, 3);
+   disp.SetCurPos(0, 3);
    add_Tracker_DD();
   }
 
   writeSNR(0, 4);
-  Display_SetCurPos(0, 5);
+  disp.SetCurPos(0, 5);
   disp.print(F("Search  "));
   disp.print(SearchMode_Packets);
-  Display_Update();
 }
 
 
 void writescreen_3()
 {
   //This displays last received tracker co-ordinates stored in memory;
-  Display_SetTextSize(1);
-  Display_Clear();
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();
   add_Tracker_Location();
-  Display_SetCurPos(0, 5);
-  disp.print(F("Last Tracker Fix"));
-  Display_Update();
+  disp.SetCurPos(0, 5);
+  disp.print(F("Last Trk Fix"));
 }
 
 
 void writescreen_4()
 {
   //This displays last Local co-ordinates from memory;
-  Display_SetTextSize(1);
-  Display_Clear();
-  Display_SetCurPos(0, 0);
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();
+  disp.SetCurPos(0, 0);
   disp.print(F("LA "));
   disp.print(LocalLat, 6);
-  Display_SetCurPos(0, 1);
+  disp.SetCurPos(0, 1);
   disp.print(F("LO "));
   disp.print(LocalLon, 6);
-  Display_SetCurPos(0, 2);
+  disp.SetCurPos(0, 2);
   disp.print(F("Alt "));
   disp.print(LocalAlt);
-  Display_SetCurPos(0, 5);
-  disp.print(F("Last Local Fix"));
-
-  Display_Update();
+  disp.SetCurPos(0, 5);
+  disp.print(F("Last Loc Fix"));
 }
 
 
 
 void writescreen_5()
 {
-  Display_SetTextSize(1);
-  Display_Clear();
-  Display_SetCurPos(0, 0);
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();
+  disp.SetCurPos(0, 0);
   disp.print(F("Receive Bind"));
-  Display_Update();
 }
 
 
 void writescreen_7()
 {
   byte tempbyte, tempbyte1, power;
-  Display_Clear();
-  Display_SetCurPos(0, 0);
+  disp.clear();
+  disp.SetCurPos(0, 0);
   disp.print("Test Packet ");
-  Display_SetCurPos(0, 1);
+  disp.SetCurPos(0, 1);
   disp.print("Power ");
   tempbyte = lora_RXBUFF[0] - 48;                    //convert ASCII to number
   tempbyte1 = lora_RXBUFF[1] - 48;                   //convert ASCII to number
@@ -183,38 +189,35 @@ void writescreen_7()
   disp.print(power);
   disp.print("dBm");
   writeSNR(0, 3);
-  delay(750);                                         //so we have enough time to see packet on screen
-  Display_Clear();
+  delay(750);                                        //so we have enough time to see packet on screen
+  disp.clear();
 }
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 void writescreen_8(uint32_t f1, uint32_t f2, int volts)
 {
-  //float tempfloat;
-  Display_Clear();
-  Display_SetCurPos(0, 0);
+  disp.clear();
+  disp.SetCurPos(0, 0);
   disp.print(F("LoRaTracker"));
-  Display_SetCurPos(0, 2);
+  disp.SetCurPos(0, 2);
   disp.print(F("Trk "));
   disp.print(f1);
-  Display_SetCurPos(0, 3);
+  disp.SetCurPos(0, 3);
   disp.print(F("Ser "));
   disp.print(f2);
-  Display_SetCurPos(0, 5);
+  disp.SetCurPos(0, 5);
   disp.print(volts);
   disp.print(F("mV"));
-  Display_Update();
 }
 
 
 void writescreen_9()
 {
   //float tempfloat;
-  Display_Clear();
-  Display_SetCurPos(0, 0);
-  disp.println(F("Memory Clear"));
-  disp.println(F("Press SWITCH1"));
-  Display_Update();
+  disp.clear();
+  disp.SetCurPos(0, 0);
+  disp.println(F("Mem Clear"));
+  disp.println(F("Push SWITCH"));
 }
 
 void add_Tracker_DD()
@@ -253,7 +256,7 @@ if (TRdistance < 1000)
 
 void add_Tracker_Location()
 {
-  Display_SetCurPos(12, 5);
+  disp.SetCurPos(10, 5);
   
   if (Local_GPS_Fix)
   {
@@ -264,13 +267,13 @@ void add_Tracker_Location()
   disp.print(F("?"));  
   }
     
-  Display_SetCurPos(0, 0);
+  disp.SetCurPos(0, 0);
   disp.print(F("LA "));
   disp.print(TRLat, 6);
-  Display_SetCurPos(0, 1);
+  disp.SetCurPos(0, 1);
   disp.print(F("LO "));
   disp.print(TRLon, 6);
-  Display_SetCurPos(0, 2);
+  disp.SetCurPos(0, 2);
   disp.print(F("AL "));
   disp.print(TRAlt);
   disp.print(F("M"));
@@ -281,8 +284,8 @@ void writeSNR(byte col, byte row)
 {
   if (lora_RXpacketCount)                       //if no packets do not display SNR
   {
-    Display_SetTextSize(1);
-    Display_SetCurPos(col, row);
+    //disp.SetTextSize(Default_Font_Size);
+    disp.SetCurPos(col, row);
     disp.print(F("SNR "));
     disp.print(lora_PacketSNR);                 //now print the SNR
     disp.print(F("dB"));
@@ -295,14 +298,14 @@ unsigned int writePktCount(byte col, byte row, unsigned int packetcount)
 {
   //now print the last two digits of lora_RXpacketCount so we can see if packets are arriving
 
-  if (packetcount > 0)                              //if no packets do not display count
+  if (packetcount > 0)                           //if no packets do not display count
   {
     if (packetcount > 999)
     {
       packetcount = 1;
     }
-    Display_SetTextSize(1);
-    Display_SetCurPos(col, row);                   //cursor to last two cols of bottom line
+    //disp.SetTextSize(SetTextSize);
+    disp.SetCurPos(col, row);                    //cursor to last two cols of bottom line
     disp.print(packetcount);                        //send count 0-999 to LCD
   }
   return packetcount;
@@ -311,13 +314,12 @@ unsigned int writePktCount(byte col, byte row, unsigned int packetcount)
 
 void writescreen_Alert1()
 {
-  Display_SetTextSize(1);
-  Display_Clear();                                    
-  Display_SetCurPos(0, 2);
-  disp.print(F("GLONASS NMEA"));
-  Display_SetCurPos(0, 3);
-  disp.print(F("  Detected  "));
-  Display_Update();
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();                                    
+  disp.SetCurPos(0, 2);
+  disp.print(F("GLONASS"));
+  disp.SetCurPos(0, 3);
+  disp.print(F("Detected"));
   delay(1500);
   revert_Screen();
 }
@@ -325,13 +327,12 @@ void writescreen_Alert1()
 
 void writescreen_Alert2()
 {
-  Display_SetTextSize(1);
-  Display_Clear();                                    
-  Display_SetCurPos(0, 1);
-  disp.print(F("     Bind"));
-  Display_SetCurPos(0, 3);
-  disp.print(F("   Accepted"));
-  Display_Update();
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();                                    
+  disp.SetCurPos(0, 1);
+  disp.print(F("Bind"));
+  disp.SetCurPos(0, 3);
+  disp.print(F("Accepted"));
   delay(1500);
   revert_Screen();
 }
@@ -339,30 +340,28 @@ void writescreen_Alert2()
 
 void writescreen_Alert4()
 {
-  Display_SetTextSize(1);
-  Display_Clear();                                    
-  Display_SetCurPos(0, 1);
-  disp.print(F("  No Tracker"));
-  Display_SetCurPos(0, 3);
-  disp.print(F("   GPS Fix"));
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();                                  
+  disp.SetCurPos(0, 1);
+  disp.print(F("No Tracker"));
+  disp.SetCurPos(0, 3);
+  disp.print(F("GPS Fix"));
   delay(750);
-  Display_Update();
 }
 
 
 void writescreen_Alert5(unsigned int supplyvolts)
 {
-  Display_SetTextSize(1);
-  Display_Clear();                                    
-  Display_SetCurPos(0, 0);
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();                                   
+  disp.SetCurPos(0, 0);
   disp.print(F("Power Up"));
-  Display_SetCurPos(0, 2);
+  disp.SetCurPos(0, 2);
   disp.print(F("Batt "));
   disp.print(supplyvolts);
   disp.print(F("mV"));
-  Display_SetCurPos(0, 5);
+  disp.SetCurPos(0, 5);
   disp.print(F("Tracker"));
-  Display_Update();
   delay(1500);
   revert_Screen();
 }
@@ -370,13 +369,12 @@ void writescreen_Alert5(unsigned int supplyvolts)
 
 void writescreen_Alert7()
 {
-  Display_SetTextSize(1);
-  Display_Clear();                                    
-  Display_SetCurPos(0, 1);
-  disp.print(F("    Bind"));
-  Display_SetCurPos(0, 3);
-  disp.print(F("  Rejected"));
-  Display_Update();
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();                                    
+  disp.SetCurPos(0, 1);
+  disp.print(F("Bind"));
+  disp.SetCurPos(0, 3);
+  disp.print(F("Rejected"));
   delay(1500);
   revert_Screen();
 }
@@ -384,22 +382,21 @@ void writescreen_Alert7()
 
 void writescreen_Alert8()
 {
-  Display_SetTextSize(1);
-  Display_Clear();                                    
-  Display_SetCurPos(0, 1);
-  disp.print(F(" Memory Clear "));
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();                                    
+  disp.SetCurPos(0, 1);
+  disp.print(F("Memory Clear"));
   delay(1500);
 }
 
 void writescreen_Alert9()
 {
-  Display_SetTextSize(1);
-  Display_Clear();                                    
-  Display_SetCurPos(0, 1);
-  disp.print(F("   Tracker"));
-  Display_SetCurPos(0, 3);
-  disp.print(F("  GPS Error"));
-  Display_Update();
+  //disp.SetTextSize(Default_Font_Size);
+  disp.clear();                                    
+  disp.SetCurPos(0, 1);
+  disp.print(F("Tracker"));
+  disp.SetCurPos(0, 3);
+  disp.print(F("GPS Error"));
 }
 
 

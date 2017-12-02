@@ -1687,7 +1687,7 @@ void setup()
 
   read_TRData();
 
-  SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));   //redo faster SPI as changed by display_setup
+  SPI.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE0));   //redo faster SPI as changed by display_setup
 
   if (!lora_CheckDevice())
   {

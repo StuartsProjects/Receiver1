@@ -72,7 +72,7 @@ unsigned int TRdirection;                          //Tracker direction in degree
 float TRdistance;
 boolean Remote_GPS_Fix = false;                    //set if we have received a location from the remote tracker
 boolean GLONASS_Active;
-boolean GPS_Config_Error;
+
 
 float LocalLat;                                    //local GPS co-ordinates
 float LocalLon;
@@ -93,7 +93,6 @@ unsigned int SupplyVolts;
 //File Includes
 
 #include Board_Definition                     //include previously defined board definition file
-#include Display_Library                      //include previously defined Display Library
 #include Memory_Library                       //include previously defined Memory Library
 
 
@@ -115,6 +114,9 @@ NeoSWSerial GPSserial(GPSRX, GPSTX);          //this library is more relaible at
 #include <Flash.h>                            //http://arduiniana.org/libraries/flash/ 
 #include "LoRa3.h"
 
+#include Display_Library                      //include previously defined Display Library
+#include Display_Screens                      //include previously defined Screens
+
 
 #ifdef USE_SendOnlySoftwareSerial
 #include <SendOnlySoftwareSerial.h>                      //https://github.com/disq/i2c-gps-nav/blob/master/I2C_GPS_NAV/SendOnlySoftwareSerial.h
@@ -132,17 +134,17 @@ SendOnlySoftwareSerial Bluetooth_Serial (Bluetooth_TX);
 #include "Binary2.h"
 
 
-#ifdef SD1306_SMALL_TEXT_Screens
-#include "SD1306_SMALL_TEXT_Screens.h"
-#endif
+//#ifdef SD1306_SMALL_TEXT_Screens
+///#include "SD1306_SMALL_TEXT_Screens.h"
+//#endif
 
-#ifdef SD1306_LARGE_TEXT_Screens
-#include "SD1306_LARGE_TEXT_Screens.h"
-#endif
+//#ifdef SD1306_LARGE_TEXT_Screens
+//#include "SD1306_LARGE_TEXT_Screens.h"
+//#endif
 
-#ifdef Use_I2C_LCD_20x4_Screens
-#include "I2C_LCD_20x4_Screens.h"
-#endif
+//#ifdef Use_I2C_LCD_20x4_Screens
+//#include "I2C_LCD_20x4_Screens.h"
+//#endif
 
 
 #define max_functions 5                             //number of functions in main program loop
