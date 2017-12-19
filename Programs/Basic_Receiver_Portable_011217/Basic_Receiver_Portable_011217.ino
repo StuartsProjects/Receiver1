@@ -3,11 +3,11 @@
 //
 // Make changes to this Program file at your peril
 //
-// Configuration changes should be made in the Basic_Receiver_Portable_Settings file not here !
+// Configuration changes should be made in the LoRaTracker_Settings file not here !
 //
 //**************************************************************************************************
 
-#define programname "Basic_Receiver_Portable_051017"
+#define programname "Basic_Receiver_Portable_011217"
 #define programversion "V2.1"
 #define aurthorname "Stuart Robinson - www.LoRaTracker.uk"
 
@@ -22,7 +22,7 @@
 
   LoRaTracker Programs for Arduino
 
-  Copyright of the author Stuart Robinson - 05/10/2017
+  Copyright of the author Stuart Robinson - 01/12/2017
 
   http://www.LoRaTracker.uk
 
@@ -34,16 +34,19 @@
   The programs are supplied as is, it is up to individual to decide if the programs are suitable for the
   intended purpose and free from errors.
 
-  This is a basic portable receiver that will rub on an ATMEGA328P, it picks up the packets form the 
+  This is a basic portable receiver that will run on an ATMEGA328P, it picks up the packets form the 
   tracker and displays them. There is no two way comminications functionality, apart from the bind function. 
   The program is a trimmed version of the Receiver2 program.
 
   To make the program compatible with LoRaTracker boards that use A1 a switch input the switch is polled, 
   avoiding an interrupt conflict between NeoSWserial and pin change interrupt. 
 
-  To do:
-  
 
+
+  To do:
+  Check there is Display_Setup() in all libraries
+  Check need for print_CurrentLoRaSettings()
+  Why record_LocalData(); save_LocalData(); distanceto(); directionto(); called when def for no GPS
 
   ******************************************************************************************************
 */
@@ -72,7 +75,7 @@ unsigned int TRdirection;                          //Tracker direction in degree
 float TRdistance;
 boolean Remote_GPS_Fix = false;                    //set if we have received a location from the remote tracker
 boolean GLONASS_Active;
-
+boolean GPS_Config_Error;
 
 float LocalLat;                                    //local GPS co-ordinates
 float LocalLon;
@@ -92,34 +95,32 @@ unsigned int SupplyVolts;
 
 //File Includes
 
-#include Board_Definition                     //include previously defined board definition file
-#include Memory_Library                       //include previously defined Memory Library
+#include Board_Definition                         //include previously defined board definition file
+#include Display_Library                          //include previously defined Display Library
 
+#include Memory_Library                           //include previously defined Memory Library
 
-#include <TinyGPS++.h>                        //http://arduiniana.org/libraries/tinygpsplus/
-TinyGPSPlus gps;                              //Create the TinyGPS++ object
-TinyGPSCustom GNGGAFIXQ(gps, "GNGGA", 5);     //custom sentences used to detect possible switch to GLONASS mode
+#include <TinyGPS++.h>                            //http://arduiniana.org/libraries/tinygpsplus/
+TinyGPSPlus gps;                                  //Create the TinyGPS++ object
+TinyGPSCustom GNGGAFIXQ(gps, "GNGGA", 5);         //custom sentences used to detect possible switch to GLONASS mode
+
 
 #ifdef USE_SOFTSERIAL_GPS
-#include <NeoSWSerial.h>                      //https://github.com/SlashDevin/NeoSWSerial  
-NeoSWSerial GPSserial(GPSRX, GPSTX);          //this library is more relaible at GPS init than software serial
+#include <NeoSWSerial.h>                          //https://github.com/SlashDevin/NeoSWSerial  
+NeoSWSerial GPSserial(GPSRX, GPSTX);              //this library is more relaible at GPS init than software serial
 #endif
 
 #ifndef Do_Not_Use_GPS
-#include GPS_Library                          //include previously defined GPS Library
+#include GPS_Library                              //include previously defined GPS Library
 #endif
 
 #include <SPI.h>
 #include <Wire.h>
-#include <Flash.h>                            //http://arduiniana.org/libraries/flash/ 
 #include "LoRa3.h"
-
-#include Display_Library                      //include previously defined Display Library
-#include Display_Screens                      //include previously defined Screens
-
+#include Display_Screens                           //include previously defined screens 
 
 #ifdef USE_SendOnlySoftwareSerial
-#include <SendOnlySoftwareSerial.h>                      //https://github.com/disq/i2c-gps-nav/blob/master/I2C_GPS_NAV/SendOnlySoftwareSerial.h
+#include <SendOnlySoftwareSerial.h>                      //http://gammon.com.au/Arduino/SendOnlySoftwareSerial.zip
 SendOnlySoftwareSerial Bluetooth_Serial (Bluetooth_TX);
 #endif
 
@@ -133,22 +134,7 @@ SendOnlySoftwareSerial Bluetooth_Serial (Bluetooth_TX);
 
 #include "Binary2.h"
 
-
-//#ifdef SD1306_SMALL_TEXT_Screens
-///#include "SD1306_SMALL_TEXT_Screens.h"
-//#endif
-
-//#ifdef SD1306_LARGE_TEXT_Screens
-//#include "SD1306_LARGE_TEXT_Screens.h"
-//#endif
-
-//#ifdef Use_I2C_LCD_20x4_Screens
-//#include "I2C_LCD_20x4_Screens.h"
-//#endif
-
-
-#define max_functions 5                             //number of functions in main program loop
-
+#define max_functions 5                           //number of functions in main program loop
 
 //**************************************************************************************************
 // Eventally - the program itself starts ............
@@ -165,7 +151,7 @@ void run_function()
 {
   //following a key press to change function this routine runs the appropriate function
 
-  delay(switch_delay);    //debounce switch
+  delay(switch_delay);    //debounce switch a bit
 
   switch (Function_Number)
   {
@@ -348,6 +334,23 @@ byte Check_LoRa_and_GPS(byte lmode, unsigned long listen_mS)
     check_GPSforFix();
 #endif
 
+
+#ifdef Do_Not_Use_GPS
+   
+    Local_GPS_Fix = true;
+    GLONASS_Active = false;
+
+    record_LocalData();
+    save_LocalData();
+    
+    distanceto();
+    directionto();
+
+    update_screen(current_screen_number);
+    delay(2000);
+
+#endif
+
   }
   while ((Switchpress == 0));
 
@@ -373,7 +376,7 @@ byte check_for_Packet()
     process_Packet();
     digitalWrite(LED1, LOW);
     Display_Listen_Mode();
-    lora_RXONLoRa();                                //ready for next and clear flags
+    lora_RXONLoRa();                                       //ready for next and clear flags
     return 1;
 
   }
@@ -384,7 +387,7 @@ byte check_for_Packet()
     Display_Listen_Mode();
     lora_RXONLoRa();    //ready for next
   }
-  return 0;                                          //no valid packet received
+  return 0;                                                //no valid packet received
 }
 
 
@@ -392,7 +395,7 @@ void write_HABPacketMemory(byte RXStart, byte RXEnd)
 {
   //stores the HAB packet in memory, FRAM or EEPROM
   byte index, bufferdata;
-  unsigned int MemAddr = addr_StartHABPayloadData;                 //address in FRAM where last received HAB payload stored
+  unsigned int MemAddr = addr_StartHABPayloadData;         //address in FRAM where last received HAB payload stored
 
   Memory_WriteByte(MemAddr, lora_RXPacketType);
   MemAddr++;
@@ -417,8 +420,8 @@ void extract_HABPacket(byte passedRXStart, byte passedRXEnd)
   byte tempbyte;
   byte savedRXStart;
 
-  savedRXStart = lora_RXStart;                 //save current value of lora_RXStart
-  lora_RXStart = passedRXStart;                //use lora_RXStart as its global
+  savedRXStart = lora_RXStart;                            //save current value of lora_RXStart
+  lora_RXStart = passedRXStart;                           //use lora_RXStart as its global
 
   //Skip leading $
   do
@@ -444,7 +447,7 @@ void extract_HABPacket(byte passedRXStart, byte passedRXEnd)
   lora_RXStart = next_Comma(lora_RXStart);
   lora_RXStart = next_Comma(lora_RXStart);
 
-  lora_RXStart = savedRXStart;                    //restore lora_RXStart, just in case
+  lora_RXStart = savedRXStart;                              //restore lora_RXStart, just in case
 }
 
 
@@ -553,7 +556,7 @@ void record_LocalData()
   LocalLon = gps.location.lng();
   LocalAlt = gps.altitude.meters();
 
-#ifdef Use_Test_Location                            //overwrite local GPS location for test purposes
+#ifdef Use_Test_Location                                    //overwrite local GPS location for test purposes
   LocalLat = TestLatitude;
   LocalLon = TestLongitude;
   LocalAlt = TestAltitude;
@@ -567,7 +570,7 @@ void save_LocalData()
   //writes local GPS location data to memory
   Memory_WriteFloat(addr_LocalLat, LocalLat);              //save tracker lat in non volatile memory
   Memory_WriteFloat(addr_LocalLon, LocalLon);              //save tracker lon in non volatile memory
-  Memory_WriteUInt(addr_LocalAlt, LocalAlt);                //save tracker lon in non volatile memory
+  Memory_WriteUInt(addr_LocalAlt, LocalAlt);               //save tracker lon in non volatile memory
 }
 
 
@@ -680,11 +683,11 @@ void process_Packet()
       directionto();
     }
 
-    update_screen(current_screen_number);                //and update the appropriate screen
+    update_screen(current_screen_number);               //and update the appropriate screen
     digitalWrite(LED1, LOW);
 
 #ifdef Use_NMEA_Bluetooth_Uplink
-    send_NMEA(TRLat, TRLon, TRAlt);                      //Send position to Bluetooth
+    send_NMEA(TRLat, TRLon, TRAlt);                     //Send position to Bluetooth
     Serial.println();
 #endif
 
@@ -696,14 +699,14 @@ void process_Packet()
   {
 
     Serial.println(F("Tracker Bind Received"));
-    ptr = 4;                         //set pointer to start of Bind data in lora_RXBUFF
+    ptr = 4;                                           //set pointer to start of Bind data in lora_RXBUFF
 
     if (!Is_Key_Valid())
     {
       return;
     }
 
-    if ((Function_Number != 5))      //only accept incoming bind request when in function 5
+    if ((Function_Number != 5))                        //only accept incoming bind request when in function 5
     {
       Serial.println(F("Not in Bind Mode"));
       return;
@@ -730,7 +733,7 @@ void process_Packet()
         tempbyte = lora_RXBUFF[ptr++];
         Memory_WriteByte(index, tempbyte);
       }
-      read_Settings_Memory();             //now bring the new settings into use
+      read_Settings_Memory();                          //now bring the new settings into use
       Print_CRC_Bind_Memory();
     }
     else
@@ -771,6 +774,17 @@ void process_Packet()
 
     return;
   }
+
+  if (lora_RXPacketType == IsLost)
+  {
+    Serial.print(F("Tracker Lost"));
+    lora_RXBuffPrint(PrintASCII);                        //print packet contents as ASCII
+    Serial.println();
+    writescreen_Alert10();
+    delay(1500);
+    return;
+  }
+
 
   Serial.println(F("Packet not recognised"));
 
@@ -864,7 +878,6 @@ void read_Settings_Memory()
   //Serial.print(F("Configuring Settings from Memory"));
   ramc_CalibrationOffset = Memory_ReadInt(addr_CalibrationOffset);
   ramc_TrackerMode_Frequency = Memory_ReadULong(addr_TrackerMode_Frequency);
-  //ramc_CommandMode_Frequency = Memory_ReadULong(addr_CommandMode_Frequency);
   ramc_SearchMode_Frequency = Memory_ReadULong(addr_SearchMode_Frequency);
   ramc_TrackerMode_Bandwidth = Memory_ReadByte(addr_TrackerMode_Bandwidth);
   ramc_TrackerMode_SpreadingFactor = Memory_ReadByte(addr_TrackerMode_SpreadingFactor);
@@ -875,6 +888,7 @@ void read_Settings_Memory()
   ramc_TrackerMode_Power = Memory_ReadByte(addr_TrackerMode_Power);
   ramc_SearchMode_Power = Memory_ReadByte(addr_SearchMode_Power);
 }
+
 
 void write_Settings_Memory()
 {
@@ -909,10 +923,6 @@ void Clear_All_Memory()
   Serial.print(F("Clear Memory"));
   Memory_Set(addr_StartMemory, addr_EndMemory, 0);
 }
-
-
-
-//*******************************************************************************************************
 
 
 void check_GPSforFix()
@@ -1051,7 +1061,7 @@ void setup()
   SPI.begin();                               //initialize SPI:
   SPI.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE0));
   pinMode(lora_NReset, OUTPUT);              //LoRa Device reset line
-  pinMode (lora_NSS, OUTPUT);               //LoRa Device select line
+  pinMode (lora_NSS, OUTPUT);                //LoRa Device select line
   digitalWrite(lora_NSS, HIGH);
   digitalWrite(lora_NReset, HIGH);
   delay(1);

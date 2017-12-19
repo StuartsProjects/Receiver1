@@ -7,8 +7,8 @@
 //
 //**************************************************************************************************
 
-#define programname "Basic_Receiver_Terminal_011017"
-#define programversion "V1.0"
+#define programname "Basic_Receiver_Terminal_151117"
+#define programversion "V1.1"
 #define aurthorname "Stuart Robinson - www.LoRaTracker.uk"
 
 #include <Arduino.h>
@@ -35,7 +35,7 @@
   intended purpose and free from errors.
 
   To do:
-
+  Check function of enter_CalibrationOffset()
 
   ******************************************************************************************************
 */
@@ -146,11 +146,9 @@ void loop()
 
 void doMenu()
 {
-  //prints the terminal menu, caqn be ignored in handheld display mode (no serial characters to input
-byte i;
+//prints the terminal menu, caqn be ignored in handheld display mode (no serial characters to input
 
 menustart:
-  i = 0;
   digitalWrite(LED1, LOW);                    //make sure LED is off
   Setup_LoRaTrackerMode();
 
@@ -346,13 +344,13 @@ menustart:
   if (keypress == '+')
   {
     Serial.println(F("Increase Tracker Frequency 1KHZ"));
-    i = lora_QueuedSend(0, 1, INCFreq, Broadcast, ThisNode, 10, lora_Power, default_attempts, NoStrip);
+    lora_QueuedSend(0, 1, INCFreq, Broadcast, ThisNode, 10, lora_Power, default_attempts, NoStrip);
   }
 
   if (keypress == '-')
   {
     Serial.println(F("Decrease Tracker Frequency 1KHZ"));
-    i = lora_QueuedSend(0, 1, DECFreq, Broadcast, ThisNode, 10, lora_Power, default_attempts, NoStrip);
+    lora_QueuedSend(0, 1, DECFreq, Broadcast, ThisNode, 10, lora_Power, default_attempts, NoStrip);
   }
 
   goto menustart;                                  //all programs deserve at least one goto, if only because it works
@@ -363,7 +361,7 @@ void enter_CalibrationOffset()
 {
   //allows calibration offset of recever to be changed from terminal keyboard
   float tempfloat;
-  byte tempchar;
+  
   Serial.println(F("Enter Khz offset > "));
   while (Serial.available() == 0);
   {
@@ -371,10 +369,9 @@ void enter_CalibrationOffset()
     Serial.print(F("Offset = "));
     Serial.println(tempfloat, 5);
   }
-  while (Serial.available() > 0)
-  {
-    tempchar = Serial.read();                      //clear keyboard buffer
-  }
+  
+  while (Serial.read() != -1);                //clear serial buffer
+
 }
 
 
