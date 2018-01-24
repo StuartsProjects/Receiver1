@@ -109,7 +109,6 @@ void setup()
   Serial.println(F("LED Flash"));
   led_FlashStart();
 
-  Serial.println();
   Serial.begin(38400);                                   //setup Serial console ouput
   Serial.println(F(programname));
   Serial.println(F(programversion));
