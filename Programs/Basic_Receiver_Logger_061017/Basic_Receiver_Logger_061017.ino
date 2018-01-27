@@ -1670,9 +1670,6 @@ void setup()
   read_Settings_Memory();
 #endif
 
-
-  //Print_CRC_All_Memory();
-  //Print_CRC_Config_Memory();
   Print_CRC_Bind_Memory();
 
   read_TRData();
