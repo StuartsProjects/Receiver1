@@ -1062,6 +1062,8 @@ void setup()
   SPI.beginTransaction(SPISettings(4000000, MSBFIRST, SPI_MODE0));
   pinMode(lora_NReset, OUTPUT);              //LoRa Device reset line
   pinMode (lora_NSS, OUTPUT);                //LoRa Device select line
+  pinMode (lora_DIO0, INPUT);                //LoRa DIO0 pin, used for RX ready
+  
   digitalWrite(lora_NSS, HIGH);
   digitalWrite(lora_NReset, HIGH);
   delay(1);
