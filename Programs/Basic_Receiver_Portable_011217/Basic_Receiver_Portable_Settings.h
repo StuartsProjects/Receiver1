@@ -119,8 +119,10 @@ const char key3 = 'a';
 #define USE_SOFTSERIAL_GPS                    //need to include this if we are using softserial for GPS 
 #define GPS_in_MB2                            //if using a MikroBus based board specify the socket for the GPS
 #define GPS_Library "UBLOX_SerialGPS2.h"      //define this file if a UBLOX GPS is being used
-//#define GPS_Library "No_GPS.h"              //define this file if no GPS is being used
+//#define GPS_Library "No_GPS.h"                //define this file if no GPS is being used
 //#define GPS_Library "Generic_SerialGPS.h"   //define this file if generic non-GLONASS GPS is being used
+
+
 //#define Do_Not_Use_GPS                        //test mode, does not use GPS used test location instead
 //#define Use_Test_Location                     //uses test location for local position, so you can take pictures without revealing your location
 //#define GPS_ALLOW_GPGSV                       //define this so that GPGSV are seen 
