@@ -170,8 +170,10 @@ const unsigned int TestAltitude = 2;
 // 7) Display Settings - Need to define a library to use and screens
 //**************************************************************************************************
 
-#define Display_Library "Display_I2C_LCD.h"
-#define Display_Screens "I2C_LCD_20x4_Screens.h"                      //use the I2C LCD Screens, 20x4 
+#define Display_Library "Display_I2C_LCD2.h"
+#define PCF8574Address 0x3F                              //address of PCF8574 can change, this define allows the address to be specified, normally 0x27 or 0x3F
+#define Display_Screens "I2C_LCD_20x4_Screens.h"         //use the I2C LCD Screens, 20x4 
+
 
 //#define Display_Library "I2CDisplay.h"
 //#define Display_Screens "I2CDisplay_Screens_ILI9341.h" 

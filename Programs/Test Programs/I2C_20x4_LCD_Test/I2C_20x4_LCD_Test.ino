@@ -16,7 +16,7 @@
   The programs are supplied as is, it is up to individual to decide if the programs are suitable for the intended purpose and
   free from errors.
 
-  Test program for 20x4 LCD displa, driven via the PCF8563 I2C I\O expander 
+  Test program for 20x4 LCD display, driven via the PCF8563 I2C I\O expander 
 
   
 **************************************************************************************************
@@ -25,7 +25,8 @@
 #include <LiquidCrystal_I2C.h>                                  //https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads/ (version 1.3.4)
 #include "I2C_Scanner.h"
 
-LiquidCrystal_I2C disp(0x3F, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  //Set the LCD I2C address and pins used
+#define PCF8574Address 0x3F                                     //address of PCF8574. This define allows the address to be specified, normally 0x27 or 0x3F
+LiquidCrystal_I2C disp(PCF8574Address, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  //Set the LCD I2C address and pins used
 
 void loop()
 {
