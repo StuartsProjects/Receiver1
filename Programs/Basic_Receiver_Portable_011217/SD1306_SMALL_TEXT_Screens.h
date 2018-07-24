@@ -255,7 +255,7 @@ if (TRdistance < 1000)
 
 void add_Tracker_Location()
 {
-  Display_SetCurPos(12, 5);
+  Display_SetCurPos(18, 0);
   
   if (Local_GPS_Fix)
   {

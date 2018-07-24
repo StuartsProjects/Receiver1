@@ -26,12 +26,12 @@ To Do:
 // 1) Hardware related definitions and options - specify board definition file type here
 //**************************************************************************************************
 
-//#define Board_Definition "Locator2_Board_Definitions.h"
+#define Board_Definition "Locator2_Board_Definitions.h"
 //#define Board_Definition "Receiver2_Board_Definitions.h"   
 //#define Board_Definition "Sensor1_Board_Definitions.h"   
 //#define Board_Definition "RFM98_Shield_January2016_Board_Definitions.h"
 //#define Board_Definition "MicroRX_Board_Definitions.h"
-#define Board_Definition "LCD_Receiver_Board_Definitions.h"
+//#define Board_Definition "LCD_Receiver_Board_Definitions.h"
 
 
 //**************************************************************************************************
@@ -42,9 +42,9 @@ To Do:
 //#define ClearAllMemory                //Clears from start memory to end memory, normally 1kbyte, needs to be followed by ConfigureDefaults
 //#define ConfigureFromMemory           //Configure settings from values stored in memory, this needs to be the active mode for bind to work
 
-#define CalibrateTone                     //comment in to have a calibrate tone at startup
+#define CalibrateTone                   //comment in to have a calibrate tone at startup
 
-//#define DEBUG                             //if defined debug mode used, results in more diagnostics to serial terminal    
+//#define DEBUG                         //if defined debug mode used, results in more diagnostics to serial terminal    
 #define ReceiveBind                     //during flight allows for a bind to be received    
 
 
@@ -118,14 +118,14 @@ const char key3 = 'a';
 
 #define USE_SOFTSERIAL_GPS                    //need to include this if we are using softserial for GPS 
 #define GPS_in_MB2                            //if using a MikroBus based board specify the socket for the GPS
-#define GPS_Library "UBLOX_SerialGPS2.h"      //define this file if a UBLOX GPS is being used
+//#define GPS_Library "UBLOX_SerialGPS2.h"      //define this file if a UBLOX GPS is being used
 //#define GPS_Library "No_GPS.h"                //define this file if no GPS is being used
-//#define GPS_Library "Generic_SerialGPS.h"   //define this file if generic non-GLONASS GPS is being used
+#define GPS_Library "Generic_SerialGPS.h"     //define this file if generic GPS such as Mediatek is being used
 
 
 //#define Do_Not_Use_GPS                        //test mode, does not use GPS used test location instead
 //#define Use_Test_Location                     //uses test location for local position, so you can take pictures without revealing your location
-//#define GPS_ALLOW_GPGSV                       //define this so that GPGSV are seen 
+//#define GPS_ALLOW_GPGSV                       //define this so that GPGSV are seen on UBLOX GPS
 
 const unsigned int GPSBaud = 9600;
 #define WhenNoGPSFix LeaveOn                   //What to do with GPS power when there is no fix at ends of wait period (LeaveOn or LeaveOff)
@@ -161,8 +161,8 @@ const unsigned int TestAltitude = 2;
 // 6) Which Memory to use for settings storage
 //**************************************************************************************************
 
-#define Memory_Library "I2CFRAM_MB85RC16PNF.h"          //define this file if a I2C FRAM is in use
-//#define Memory_Library "EEPROM_Memory.h"              //define this file if the EEPROM is being used for memory - not recommended for portable receiver  
+//#define Memory_Library "I2CFRAM_MB85RC16PNF.h"          //define this file if a I2C FRAM is in use
+#define Memory_Library "EEPROM_Memory.h"                //define this file if the EEPROM is being used for memory - not recommended for portable receiver  
   
 
 
@@ -170,17 +170,19 @@ const unsigned int TestAltitude = 2;
 // 7) Display Settings - Need to define a library to use and screens
 //**************************************************************************************************
 
-#define Display_Library "Display_I2C_LCD2.h"
-#define PCF8574Address 0x3F                              //address of PCF8574 can change, this define allows the address to be specified, normally 0x27 or 0x3F
-#define Display_Screens "I2C_LCD_20x4_Screens.h"         //use the I2C LCD Screens, 20x4 
+//#define Display_Library "Display_I2C_LCD2.h"             //This is thew 20x4 LCD display, driven by a PCF8574 backpack 
+//#define Display_Screens "I2C_LCD_20x4_Screens.h"         //use the I2C LCD Screens, 20x4 
+//const int PCF8574Address = 0x3F;                         //I2C address of the PCF8574, this define allows the address to be specified, normally 0x27 or 0x3F
+
+//#define Display_Library "Display_I2CBackPack.h"          //This is the LoRaTracker I2C connected display backpack.       
+//#define Display_Screens "I2CDisplay_Screens_ILI9341.h"   //use the screens for the ILI9341 which needs to be connected to the backpack
+//const int Display_Address = 0x08;                        //I2C address of the backpack
 
 
-//#define Display_Library "I2CDisplay.h"
-//#define Display_Screens "I2CDisplay_Screens_ILI9341.h" 
-
-//#define Display_Library "Display_SD1306_AVR.h"
-//#define SD1306_SMALL_TEXT_Screens                       //use small text on display, more information   
-//#define SD1306_LARGE_TEXT_Screens                     //use large text on screen, easier to read 
+#define Display_Library "Display_SD1306_AVR.h"             //use an SSD1306 I2C display 
+#define Display_Screens "SD1306_SMALL_TEXT_Screens.h"        //use small text on display, more information   
+//#define Display_Screens "SD1306_LARGE_TEXT_Screens.h"      //use large text on screen, easier to read 
+const int I2C_ADDRESS = 0x3C;                              //address of SD13206 will be 0x3C or 0x3D
 
 
 //**************************************************************************************************
