@@ -29,7 +29,7 @@ disable bind mode when menu not selected
 // 1) Hardware related definitions and options - specify board type here
 //**************************************************************************************************
 
-//#define UseSD                                            //define if there is an SD card attached 
+#define UseSD                                            //define if there is an SD card attached 
 #define Board_Definition "Locator2_Board_Definitions.h"    //define the board type to be used
 
 

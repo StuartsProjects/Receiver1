@@ -26,12 +26,12 @@ To Do:
 // 1) Hardware related definitions and options - specify board definition file type here
 //**************************************************************************************************
 
-#define Board_Definition "Locator2_Board_Definitions.h"
+//#define Board_Definition "Locator2_Board_Definitions.h"
 //#define Board_Definition "Receiver2_Board_Definitions.h"   
 //#define Board_Definition "Sensor1_Board_Definitions.h"   
 //#define Board_Definition "RFM98_Shield_January2016_Board_Definitions.h"
 //#define Board_Definition "MicroRX_Board_Definitions.h"
-//#define Board_Definition "LCD_Receiver_Board_Definitions.h"
+#define Board_Definition "LCD_Receiver_Board_Definitions.h"
 
 
 //**************************************************************************************************
@@ -170,26 +170,26 @@ const unsigned int TestAltitude = 2;
 // 7) Display Settings - Need to define a library to use and screens
 //**************************************************************************************************
 
-//#define Display_Library "Display_I2C_LCD2.h"             //This is thew 20x4 LCD display, driven by a PCF8574 backpack 
-//#define Display_Screens "I2C_LCD_20x4_Screens.h"         //use the I2C LCD Screens, 20x4 
-//const int PCF8574Address = 0x3F;                         //I2C address of the PCF8574, this define allows the address to be specified, normally 0x27 or 0x3F
+#define Display_Library "Display_I2C_LCD2.h"             //This is the 20x4 LCD display, driven by a PCF8574 backpack 
+#define Display_Screens "I2C_LCD_20x4_Screens.h"         //use the I2C LCD Screens, 20x4 
+const int PCF8574Address = 0x3F;                         //I2C address of the PCF8574, this define allows the address to be specified, normally 0x27 or 0x3F
 
 //#define Display_Library "Display_I2CBackPack.h"          //This is the LoRaTracker I2C connected display backpack.       
 //#define Display_Screens "I2CDisplay_Screens_ILI9341.h"   //use the screens for the ILI9341 which needs to be connected to the backpack
 //const int Display_Address = 0x08;                        //I2C address of the backpack
 
 
-#define Display_Library "Display_SD1306_AVR.h"             //use an SSD1306 I2C display 
-#define Display_Screens "SD1306_SMALL_TEXT_Screens.h"        //use small text on display, more information   
+//#define Display_Library "Display_SD1306_AVR.h"             //use an SSD1306 I2C display 
+//#define Display_Screens "SD1306_SMALL_TEXT_Screens.h"        //use small text on display, more information   
 //#define Display_Screens "SD1306_LARGE_TEXT_Screens.h"      //use large text on screen, easier to read 
-const int I2C_ADDRESS = 0x3C;                              //address of SD13206 will be 0x3C or 0x3D
+//const int I2C_ADDRESS = 0x3C;                              //address of SD13206 will be 0x3C or 0x3D
 
 
 //**************************************************************************************************
 // 9) AFSK RTTY Options
 //**************************************************************************************************
 
-//#define USE_AFSK_RTTY_Upload
+#define USE_AFSK_RTTY_Upload
 const int AFSKrttybaud = 1465;            //delay in uS x 2 for 1 bit and 300baud. Decode range in FLDIGI 1420 to 1510  
 const int afskleadinmS = 500;             //number of ms for AFSK constant lead in tone
 const int tonehighHz = 1000;              //high tone in Hertz 
@@ -215,9 +215,3 @@ const byte Bluetooth_Buff_Size = 128;       //size of buffer for NMEA output
 //**************************************************************************************************
 
 const unsigned int switch_delay = 1000;                  //delay in mS after a switch press before another can take place
-
-
-
-
-
-

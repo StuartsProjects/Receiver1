@@ -508,6 +508,7 @@ void print_mode(byte lmode)
 void send_TestRequest(char cmd)
 {
   //transmit a test request
+  Setup_LoRaCommandMode();
   Serial.print(F("Send Test Request "));
   Serial.write(cmd);
   Serial.println();
