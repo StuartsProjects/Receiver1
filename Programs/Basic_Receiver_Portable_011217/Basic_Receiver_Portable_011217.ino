@@ -3,13 +3,13 @@
 //
 // Make changes to this Program file at your peril
 //
-// Configuration changes should be made in the LoRaTracker_Settings file not here !
+// Configuration changes should be made in the Tracker_Settings file not here !
 //
 //**************************************************************************************************
 
 #define programname "Basic_Receiver_Portable_011217"
 #define programversion "V2.1"
-#define aurthorname "Stuart Robinson - www.LoRaTracker.uk"
+#define aurthorname "Stuart Robinson - "
 
 #include <Arduino.h>
 #include <avr/pgmspace.h>
@@ -20,11 +20,11 @@
 /*
 **************************************************************************************************
 
-  LoRaTracker Programs for Arduino
+  Tracker Programs for Arduino
 
   Copyright of the author Stuart Robinson - 01/12/2017
 
-  http://www.LoRaTracker.uk
+  http://
 
   These programs may be used free of charge for personal, recreational and educational purposes only.
 
@@ -38,7 +38,7 @@
   tracker and displays them. There is no two way comminications functionality, apart from the bind function. 
   The program is a trimmed version of the Receiver2 program.
 
-  To make the program compatible with LoRaTracker boards that use A1 a switch input the switch is polled, 
+  To make the program compatible with Tracker boards that use A1 a switch input the switch is polled, 
   avoiding an interrupt conflict between NeoSWserial and pin change interrupt. 
 
 
@@ -273,7 +273,7 @@ byte Check_LoRa_and_GPS(byte lmode, unsigned long listen_mS)
   switch (lmode)
   {
     case TrackerMode:
-      Setup_LoRaTrackerMode();
+      Setup_TrackerMode();
       break;
 
     case SearchMode:
@@ -987,7 +987,7 @@ void distanceto()
 }
 
 
-void Setup_LoRaTrackerMode()
+void Setup_TrackerMode()
 {
   //sets LoRa modem to Tracker mode
   lora_SetFreq(ramc_TrackerMode_Frequency, ramc_CalibrationOffset);
@@ -1107,7 +1107,7 @@ void setup()
   Bluetooth_Serial_Setup();
 #endif
 
-  Setup_LoRaTrackerMode();
+  Setup_TrackerMode();
 
   writescreen_8(ramc_TrackerMode_Frequency, ramc_SearchMode_Frequency, SupplyVolts);
 

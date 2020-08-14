@@ -2,11 +2,11 @@
 /*
 **************************************************************************************************
 
-  LoRaTracker Programs for Arduino
+  Tracker Programs for Arduino
 
   Copyright of the author Stuart Robinson
 
-  http://www.LoRaTracker.uk
+  http://
 
   These programs may be used free of charge for personal, recreational and educational purposes only.
 
@@ -31,7 +31,7 @@ LiquidCrystal_I2C disp(PCF8574Address, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  //Set
 void loop()
 {
 disp.setCursor(0,0); //Start at character 4 on line 0
-disp.print("www.LoRaTracker.uk");
+disp.print("");
 delay(1000);
 disp.setCursor(0,1);
 disp.print("I2C LCD Backpack"); // Print text on 2nd Line

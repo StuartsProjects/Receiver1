@@ -2,11 +2,11 @@
 /*
 **************************************************************************************************
 
-  Easy Build LoRaTracker Programs for Arduino
+  Easy Build Tracker Programs for Arduino
 
   Copyright of the author Stuart Robinson - 05/10/2017
 
-  http://www.LoRaTracker.uk
+  http://
 
   These programs may be used free of charge for personal, recreational and educational purposes only.
 
@@ -22,7 +22,7 @@
 */
 
 
-#include "Display_SD1306_AVR.h"            //LoRaTracker Library file that uses text only library for low memory footprint
+#include "Display_SD1306_AVR.h"            //Tracker Library file that uses text only library for low memory footprint
 unsigned int count = 0;
 
 
@@ -31,7 +31,7 @@ void loop(void)
   Serial.println(F("Running Display Test"));
   Display_SetCurPos(0, 0);
   Display_SetTextSize(1);
-  disp.print("www.LoRaTracker.uk");
+  disp.print("");
   Display_SetCurPos(0, 1);
   disp.print("Hello World!");
   Display_SetCurPos(0, 2);

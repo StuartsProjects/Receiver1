@@ -1,12 +1,12 @@
-//LoRaTracker_Settings.h
+//Tracker_Settings.h
 /*
 ******************************************************************************************************
 
-LoRaTracker Programs for Arduino
+Tracker Programs for Arduino
 
 Copyright of the author Stuart Robinson - 05/10/2017
 
-http://www.LoRaTracker.uk
+http://
   
 These programs may be used free of charge for personal, recreational and educational purposes only.
 
@@ -174,7 +174,7 @@ const unsigned int TestAltitude = 2;
 #define Display_Screens "I2C_LCD_20x4_Screens.h"         //use the I2C LCD Screens, 20x4 
 const int PCF8574Address = 0x3F;                         //I2C address of the PCF8574, this define allows the address to be specified, normally 0x27 or 0x3F
 
-//#define Display_Library "Display_I2CBackPack.h"          //This is the LoRaTracker I2C connected display backpack.       
+//#define Display_Library "Display_I2CBackPack.h"          //This is the Tracker I2C connected display backpack.       
 //#define Display_Screens "I2CDisplay_Screens_ILI9341.h"   //use the screens for the ILI9341 which needs to be connected to the backpack
 //const int Display_Address = 0x08;                        //I2C address of the backpack
 

@@ -2,11 +2,11 @@
 /*
 ******************************************************************************************************
 
-LoRaTracker Programs for Arduino
+Tracker Programs for Arduino
 
 Copyright of the author Stuart Robinson
 
-http://www.LoRaTracker.uk
+http://
   
 These programs may be used free of charge for personal, recreational and educational purposes only.
 

@@ -9,7 +9,7 @@
 
 #define programname "Basic_Receiver_Terminal_151117"
 #define programversion "V1.1"
-#define aurthorname "Stuart Robinson - www.LoRaTracker.uk"
+#define aurthorname "Stuart Robinson - "
 
 #include <Arduino.h>
 #include <avr/pgmspace.h>
@@ -20,11 +20,11 @@
 /*
 **************************************************************************************************
 
-  LoRaTracker Programs for Arduino
+  Tracker Programs for Arduino
 
   Copyright of the author Stuart Robinson
 
-  http://www.LoRaTracker.uk
+  http://
 
   These programs may be used free of charge for personal, recreational and educational purposes only.
 
@@ -131,7 +131,7 @@ SendOnlySoftwareSerial Bluetooth_Serial (Bluetooth_TX);
 
 void loop()
 {
-  Setup_LoRaTrackerMode();
+  Setup_TrackerMode();
   listen_LoRa(TrackerMode, 0);
   while (Serial.read() != -1);                //clear serial buffer
 
@@ -150,7 +150,7 @@ void doMenu()
 
 menustart:
   digitalWrite(LED1, LOW);                    //make sure LED is off
-  Setup_LoRaTrackerMode();
+  Setup_TrackerMode();
 
   Serial.println();
   Serial.println();
@@ -417,7 +417,7 @@ byte listen_LoRa(byte lmode, unsigned long listen_mS)
   switch (lmode)
   {
     case TrackerMode:
-      Setup_LoRaTrackerMode();
+      Setup_TrackerMode();
       break;
 
     case SearchMode:
@@ -1532,7 +1532,7 @@ void print_last_HABpacket()
 }
 
 
-void Setup_LoRaTrackerMode()
+void Setup_TrackerMode()
 {
   //sets LoRa modem to Tracker mode
   lora_SetFreq(ramc_TrackerMode_Frequency, ramc_CalibrationOffset);
@@ -1702,7 +1702,7 @@ void setup()
   print_Nodes();
   Serial.println();
 
-  Setup_LoRaTrackerMode();
+  Setup_TrackerMode();
 
   Serial.println();
   lora_Print();

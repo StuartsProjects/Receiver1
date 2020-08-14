@@ -2,11 +2,11 @@
 /*
 **************************************************************************************************
 
-  LoRaTracker Programs for Arduino
+  Tracker Programs for Arduino
 
   Copyright of the author Stuart Robinson
 
-  http://www.LoRaTracker.uk
+  http://
 
   These programs may be used free of charge for personal, recreational and educational purposes only.
 
@@ -54,7 +54,7 @@ void loop()
   Serial.println(seq++);
   Serial.println();
 
-  Setup_LoRaTrackerMode();
+  Setup_TrackerMode();
 
   lora_Print();
   Serial.println();
@@ -64,7 +64,7 @@ void loop()
 }
 
 
-void Setup_LoRaTrackerMode()
+void Setup_TrackerMode()
 {
   //sets LoRa modem to Tracker mode
   lora_SetFreq(TrackerMode_Frequency, CalibrationOffset);
@@ -122,7 +122,7 @@ void setup()
   if (lora_CheckDevice() == true)
   {
     lora_Setup();			                      //Do the initial LoRa Setup
-    Setup_LoRaTrackerMode();
+    Setup_TrackerMode();
 
     Serial.println();
   }

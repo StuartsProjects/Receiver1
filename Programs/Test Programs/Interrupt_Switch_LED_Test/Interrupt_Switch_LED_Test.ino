@@ -6,11 +6,11 @@
 /*
 ********************************************************************************************************************************
 
-  Easy Build LoRaTracker Programs for Arduino ATMEGA328
+  Easy Build Tracker Programs for Arduino ATMEGA328
 
   Copyright of the author Stuart Robinson - 04/10/2017
 
-  http://www.LoRatracker.uk
+  http://
 
   These programs may be used free of charge for personal, recreational and educational purposes only.
 

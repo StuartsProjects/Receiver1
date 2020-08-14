@@ -1,12 +1,12 @@
-//LoRaTracker_Settings.h
+//Tracker_Settings.h
 /*
 ******************************************************************************************************
 
-LoRaTracker Programs for Arduino
+Tracker Programs for Arduino
 
 Copyright of the author Stuart Robinson - 23/08/2017
 
-http://www.LoRaTracker.uk
+http://
   
 These programs may be used free of charge for personal, recreational and educational purposes only.
 
