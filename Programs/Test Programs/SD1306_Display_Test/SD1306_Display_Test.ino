@@ -6,8 +6,6 @@
 
   Copyright of the author Stuart Robinson - 05/10/2017
 
-  http://
-
   These programs may be used free of charge for personal, recreational and educational purposes only.
 
   This program, or parts of it, may not be used for or in connection with any commercial purpose without the explicit permission
@@ -21,7 +19,7 @@
 
 */
 
-
+#define I2C_ADDRESS 0x3C                   //address will be 0x3C or 0x3D
 #include "Display_SD1306_AVR.h"            //Tracker Library file that uses text only library for low memory footprint
 unsigned int count = 0;
 

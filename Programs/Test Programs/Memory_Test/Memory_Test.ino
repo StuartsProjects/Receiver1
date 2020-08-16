@@ -10,8 +10,6 @@
 
   Copyright of the author Stuart Robinson - 04/10/2017
 
-  http://
-
   These programs may be used free of charge for personal, recreational and educational purposes only.
 
   This program, or parts of it, may not be used for or in connection with any commercial purpose without the explicit permission

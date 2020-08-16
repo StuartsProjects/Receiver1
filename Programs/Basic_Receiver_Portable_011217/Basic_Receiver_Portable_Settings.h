@@ -26,11 +26,6 @@ To Do:
 // 1) Hardware related definitions and options - specify board definition file type here
 //**************************************************************************************************
 
-//#define Board_Definition "Locator2_Board_Definitions.h"
-//#define Board_Definition "Receiver2_Board_Definitions.h"   
-//#define Board_Definition "Sensor1_Board_Definitions.h"   
-//#define Board_Definition "RFM98_Shield_January2016_Board_Definitions.h"
-//#define Board_Definition "MicroRX_Board_Definitions.h"
 #define Board_Definition "LCD_Receiver_Board_Definitions.h"
 
 
